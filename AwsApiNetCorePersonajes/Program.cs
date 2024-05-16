@@ -21,7 +21,14 @@ string connectionString = builder.Configuration.GetConnectionString("MySqlAws");
 builder.Services.AddTransient<PersonajesRepository>();
 builder.Services.AddDbContext<PersonajesContext>
     (options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddCors(o => o.AddPolicy("CorsEnabled", builder =>
+{
+    builder.WithOrigins("*")
+           .AllowAnyMethod()
+           .AllowAnyHeader();
 
+    // U Can Filter Here
+}));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,6 +45,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("CorsEnabled");
 app.UseAuthorization();
 
 app.MapControllers();
