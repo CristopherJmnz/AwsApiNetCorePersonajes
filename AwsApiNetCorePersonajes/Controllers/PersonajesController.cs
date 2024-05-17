@@ -34,5 +34,12 @@ namespace AwsApiNetCorePersonajes.Controllers
             await this.repo.InsertPersonajeAsync(personaje.Nombre, personaje.Imagen);
             return Ok();
         }
+
+        [HttpPut]
+        public async Task<ActionResult> Update([FromBody] Personaje personaje)
+        {
+            await this.repo.UpdatePersonaje(personaje.IdPersonaje,personaje.Nombre, personaje.Imagen);
+            return Ok();
+        }
     }
 }
